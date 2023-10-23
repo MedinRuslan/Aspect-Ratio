@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aspect Ratio Calculator</title>
+  <!-- Google Fonts-->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h2>
+      <span>Aspect Ratio</span>
+      Calculator
+    </h2>
+    <div class="wrapper-1">
+      <input type="number" id="ratio-width" value="16" />
+      <input type="number" id="ratio-height" value="9" />
+    </div>
+    <div class="box">
+      <div class="wrapper-2">
+        <label for="width">Width:</label>
+        <input type="number" id="width" step="80" value="1280" />
+      </div>
+      <div class="wrapper-3">
+        <label for="height">Height:</label>
+        <input type="number" id="height" step="80" value="720" />
+      </div>
+    </div>
+  </div>
+  <!-- Script -->
+  <!-- 1. Add listeners to all the 4 inputs
+             2. If ratio-width is changed, the width should change to keep the same ratio width
+    ratio-width was 16, ratio-height was 9
+    width was 1280, height was 720
+
+    let's say, ratio-width is changed to 10
+     width should change to 720/9*10 (height / ratio-height * ratio-width)
+    
+             3. if ratio-height is changed, it affects height 
+             4. If the width is changed, the ratio is the same, but the height shoud change
+             5. If the height is changed, the ratio is the same, but the width shoud change too-->
+  <!-- 1. Добавить слушателей ко всем 4 входам
+     2. Если изменяется соотношение ширины (ratio-width), ширина должна измениться, чтобы сохранить тоже самое соотношение.
+        (Изначально ratio-width было 16, и ratio-height было 9.
+        Если, например, ratio-width изменяется на 10,
+        ширина должна измениться на 720/9*10 (высота / ratio-height * ratio-width))
+     3. Если изменяется соотношение высоты (ratio-height), это влияет на высоту.
+     4. Если изменяется ширина, соотношение остается тем же, но высота должна соответственно измениться.
+     5. Если изменяется высота, соотношение остается тем же, но ширина также должна измениться. -->
+
+  <script>
+    const ratio_width = document.querySelector('#ratio-width')
+    const ratio_height = document.querySelector('#ratio-height')
+    const width = document.querySelector('#width')
+    const height = document.querySelector('#height')
+    console.log(ratio_width);
+    console.log(ratio_height);
+    console.log(width);
+    console.log(height);
+    let previousRatioWidth = ratio_width.value;
+    let previousRatioHeight = ratio_height.value;
+    let previousWidth = width.value;
+    let previousHeight = height.value;
+
+    ratio_width.addEventListener('change', function () {
+      const currentRatioWidth = parseFloat(ratio_width.value);
+      if (currentRatioWidth > previousRatioWidth) {
+        width.value = ((parseFloat(ratio_width.value) * parseFloat(height.value)) / parseFloat(ratio_height.value)).toString();
+      } else if (currentRatioWidth < previousRatioWidth) {
+        width.value = ((parseFloat(ratio_width.value) * parseFloat(height.value)) / parseFloat(ratio_height.value)).toString();
+      }
+      previousRatioWidth = currentRatioWidth;
+    });
+    
+    width.addEventListener('change', function () {
+      const currentWidth = parseFloat(width.value);
+      if (currentWidth > previousWidth) {
+        ratio_width.value = (parseFloat(width.value) * parseFloat(ratio_height.value) / parseFloat(height.value)).toString();
+      } else if (currentWidth < previousWidth) {
+        ratio_width.value = (parseFloat(width.value) * parseFloat(ratio_height.value) / parseFloat(height.value)).toString();
+      }
+      previousWidth = currentWidth;
+    });
+
+    height.addEventListener('change', function () {
+      const currentHeight = parseFloat(height.value);
+      if (currentHeight > previousHeight) {
+        ratio_height.value = ((parseFloat(height.value) * parseFloat(ratio_width.value) / parseFloat(width.value))).toString();
+      } else if (currentHeight < previousHeight) {
+        ratio_height.value = ((parseFloat(height.value) * parseFloat(ratio_width.value) / parseFloat(width.value))).toString();
+      }
+      previousHeight = currentHeight;
+    });
+
+    ratio_height.addEventListener('change', function () {
+      const currentRatioHeight = parseFloat(ratio_height.value);
+      if (currentRatioHeight > previousRatioHeight) {
+        height.value = ((parseFloat(ratio_height.value) * parseFloat(width.value) / parseFloat(ratio_width.value))).toString();
+      } else if (currentRatioHeight < previousRatioHeight) {
+        height.value = ((parseFloat(ratio_height.value) * parseFloat(width.value) / parseFloat(ratio_width.value))).toString();
+      }
+      previousRatioHeight = currentRatioHeight;
+    });
+
+    
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>
